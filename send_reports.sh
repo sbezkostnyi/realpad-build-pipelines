@@ -12,6 +12,9 @@
 
 TEMP_DIR="/tmp/reports"
 
+# Exit on error
+set -e
+
 # Cleanup temporary directory
 if [[ -d "${TEMP_DIR}" ]]; then
     rm -rf "${TEMP_DIR}"

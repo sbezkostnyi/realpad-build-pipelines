@@ -7,6 +7,7 @@ RUN apt-get update \
 
 # Add script to send static code analyzers reports
 ADD send_reports.sh /send_reports.sh
+RUN chmod +x /send_reports.sh
 
 # Make the "en_US.UTF-8" locale
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
