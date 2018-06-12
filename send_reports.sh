@@ -35,6 +35,9 @@ for DIR in ${REPORTS_DIR}*/; do
   done
 done
 
+perl -i -p0e "s/\<p\>Code analyzed\:\<\/p\>\n\<ul\>\n(\<li\>.*\<\/li\>\n)+\<\/ul\>\n//g" "${TEMP_DIR}/report.spotbugs.main.html"
+perl -i -p0e "s/\<p\>Code analyzed\:\<\/p\>\n\<ul\>\n(\<li\>.*\<\/li\>\n)+\<\/ul\>\n//g" "${TEMP_DIR}/report.spotbugs.test.html"
+
 # Build email body
 echo "Static code analyzers reports from the Pipelines build #${BITBUCKET_BUILD_NUMBER}" > "${TEMP_DIR}/body.txt"
 echo "" >> "${TEMP_DIR}/body.txt"
