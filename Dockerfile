@@ -1,4 +1,4 @@
-FROM frekele/gradle:4.7-jdk8
+FROM frekele/gradle:4.8-jdk8
 
 # Install required packages
 RUN apt-get update \
