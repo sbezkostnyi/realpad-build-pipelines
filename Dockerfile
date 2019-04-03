@@ -1,4 +1,4 @@
-FROM frekele/java:jdk8u202
+FROM frekele/java:jdk8
 
 ENV GRADLE_VERSION=5.3.1
 ENV GRADLE_HOME=/opt/gradle
