@@ -1,6 +1,6 @@
 FROM frekele/java:jdk8
 
-ENV GRADLE_VERSION=5.3.1
+ENV GRADLE_VERSION=6.0.1
 ENV GRADLE_HOME=/opt/gradle
 ENV GRADLE_FOLDER=/root/.gradle
 
