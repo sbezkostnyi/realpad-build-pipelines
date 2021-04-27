@@ -25,7 +25,7 @@ RUN set -o errexit -o nounset \
 
 # Install required packages
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends file s-nail \
+    && apt-get install -y --no-install-recommends file swaks libnet-ssleay-perl \
     && rm -rf /var/lib/apt/lists/*
 
 # Add script to send static code analyzers reports

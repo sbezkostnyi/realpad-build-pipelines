@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script sends email with static code analyzers reports from Gradle build
-# It designed to be executed as part of Bitbucket Pipelines build
+# It's designed to be executed as part of Bitbucket Pipelines build
 
 # Requires to configure next environment variables in your repository:
 # SMTP_SERVER=host:port
@@ -31,7 +31,7 @@ for DIR in ${REPORTS_DIR}*/; do
     FILE_NAME=$(basename "${FILE}")
     REPORT_FILE="${TEMP_DIR}/report.${DIR_NAME}.${FILE_NAME}"
     cp "${FILE}" "${REPORT_FILE}"
-    ATTACHMENTS+=("-a ${REPORT_FILE}")
+    ATTACHMENTS+=("--attach-type $(file --brief --mime-type ${REPORT_FILE}) --attach ${REPORT_FILE}")
   done
 done
 
@@ -47,4 +47,13 @@ echo "Build details: https://bitbucket.org/${BITBUCKET_REPO_OWNER}/${BITBUCKET_R
 echo "Commit details: https://bitbucket.org/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/commits/${BITBUCKET_COMMIT} " >> "${TEMP_DIR}/body.txt"
 
 # Send email with reports
-s-nail -v -r "${SMTP_SENDER}" -s "Static code analyzers reports from the Pipelines build #${BITBUCKET_BUILD_NUMBER}" ${ATTACHMENTS[@]} -S smtp="${SMTP_SERVER}" -S smtp-use-starttls -S smtp-auth="login" -S smtp-auth-user="${SMTP_AUTH_USER}" -S smtp-auth-password="${SMTP_AUTH_PASSWORD}" ${SMTP_RECIPIENTS} < ${TEMP_DIR}/body.txt
+swaks -tls \
+  --server "${SMTP_SERVER}" \
+  --auth LOGIN \
+  --auth-user "${SMTP_AUTH_USER}" \
+  --auth-password "${SMTP_AUTH_PASSWORD}" \
+  --from "${SMTP_SENDER}" \
+  --to "${SMTP_RECIPIENTS}" \
+  --header "Subject: Static code analyzers reports from the Pipelines build #${BITBUCKET_BUILD_NUMBER}" \
+  --attach-body "${TEMP_DIR}/body.txt" \
+  ${ATTACHMENTS[@]}
