@@ -1,8 +1,8 @@
-FROM gradle:7.4.0-jdk11
+FROM gradle:8.2.1-jdk17
 
 ENV NODE_HOME /opt/node
-ENV NODE_VERSION 16.14.0
-ARG NODE_DOWNLOAD_SHA256=2c69e7b040c208b61ebf9735c63d2e5bcabfed32ef05a9b8dd5823489ea50d6b
+ENV NODE_VERSION 18.17.0
+ARG NODE_DOWNLOAD_SHA256=5c4a7fd9262c0c47bafab3442de6c3fed1602be3d243cb8cf11309a201955e75
 
 # Install Node.js
 RUN set -o errexit -o nounset \
@@ -25,9 +25,5 @@ RUN set -o errexit -o nounset \
 
 # Install required packages
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends file swaks libnet-ssleay-perl \
+    && apt-get install -y --no-install-recommends file \
     && rm -rf /var/lib/apt/lists/*
-
-# Add script to send static code analyzers reports
-ADD send_reports.sh /send_reports.sh
-RUN chmod +x /send_reports.sh
